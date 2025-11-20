@@ -1,0 +1,12 @@
+Assignment Monolythic app deploy manual
+1. create one Ec2 medium
+2. install maven (yum install maven -y)
+3. install git
+4. clone this repo (https://github.com/lakshmiprasad2019/myweb.git)
+5. go to that folder (cd myweb)
+6. create package for that code (mvn package)
+7. install tomcat on same server.
+8. configure tomcat
+9. deploy your application (copy .war file from your project target folder to tomcat webapps dir)
+
+checkpoint: try to access your appliction under manager app in tomcat
