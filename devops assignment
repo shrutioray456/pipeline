@@ -1,0 +1,54 @@
+Project 3:
+=========
+1. create Jenkins and configure it. 
+2. install required s/w in it (git, terraform)
+3. configure aws access/secret keys for Jenkins user.
+4. clone your git repo into local.
+5. create code for network diagram.
+6. push your branch to remote
+7. create pipeline to build your Infra in Jenkins using free style project.
+8. use PollSCM to make it automate.
+9. modify something in your code and push that code.  
+
+check point: 
+1. infrastructure should be create using pipeline.
+2. once you configured PollSCM your pipeline should be trigger automatically.
+
+
+Pls do it as a pipeline and above us reference
+  pipeline {
+    agent any
+    
+    parameters {
+        choice(
+            name: 'TERRAFORM_ACTION',
+            choices: ['apply', 'destroy'],
+            description: 'Select whether to apply or destroy infrastructure'
+        )
+    }
+
+    stages {
+        stage('terraform init') {
+            steps {
+                sh 'terraform init'
+            }
+        }
+        stage('terraform plan') {
+            steps {
+                sh 'terraform plan'
+            }
+        }
+        stage('terraform action') {
+            steps {
+                script {
+                    if (params.TERRAFORM_ACTION == 'apply') {
+                        sh 'terraform apply -auto-approve'
+                    } else if (params.TERRAFORM_ACTION == 'destroy') {
+                        sh 'terraform destroy -auto-approve'
+                    }
+                }
+            }
+        }
+    }
+}
+
