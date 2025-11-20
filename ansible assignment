@@ -1,0 +1,23 @@
+Assignment: Ansible
+1. create two ec2 instances
+2. configure one server as a ansible master and one as a ansible client
+3. create inventory file and keep client private IP inside of that file.
+4. test the connectivity by using ansible ansible -m ping all -I <inventory file>
+6. configure your target as a Jenkins server using ansible (java pkg name java-21-amazon-corretto)
+
+tasks:
+  - name: java install
+    yum:
+      name: java-21-amazon-corretto
+      state: present
+  - name: add jenkins repo
+    ansible.builtin.command: sudo wget -O /etc/yum.repos.d/jenkins.repo \
+    https://pkg.jenkins.io/redhat-stable/jenkins.repo |sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+  - name: install jenkins
+    yum:
+      name: jenkins
+      state: present
+  - name: start jenkins service
+    service:
+      name: jenkins
+      state: started
